@@ -223,11 +223,11 @@ try {
     const cssContent = \`/* Styles for \${componentName} component */\`;
     fs.writeFileSync(path.join(componentFolderPath +  "-component", 'style.css'), cssContent);
 
-    const componentContent = \\\`
+    const componentContent = \`
     import { html, render } from "lit-html";
     import style from './style.css'
     
-    const template = html\`
+    const template = html\\\`
         <div class="\${componentName}">
             <!-- Content -->
         </div>
