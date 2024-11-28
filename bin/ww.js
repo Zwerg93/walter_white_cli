@@ -52,8 +52,7 @@ function askUser(question) {
 
 // Projekt-Setup
 async function setupProject() {
-    const basePath = process.cwd();
-
+    const basePath = path.join(process.cwd(), projectName);
     // Basisstruktur erstellen
     const folders = [path.join(basePath, 'src'), path.join(basePath, 'src', 'app'), path.join(basePath, 'src', 'app', 'components'), path.join(basePath, 'src', 'app', 'model'), path.join(basePath, 'src', 'app', 'service'),];
 
