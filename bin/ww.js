@@ -58,7 +58,7 @@ async function setupProject() {
 
 
     const files = {
-[path.join(basePath, 'webpack.config.js')]: `
+[path.join(basePath, 'package.json')]: `
 {
   "name": "${projectName}",
   "version": "1.0.0",
