@@ -1,0 +1,9 @@
+{
+    "name": "@codingcat/walter_white_cli",
+    "version": "1.0.0",
+    "main": "index.js",
+    "bin": {
+      "ww": "./bin/ww.js"
+    },
+    "dependencies": {}
+  }
