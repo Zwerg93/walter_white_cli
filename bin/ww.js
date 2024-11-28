@@ -5,23 +5,22 @@ const path = require('path');
 const readline = require('readline');
 const { exec } = require('child_process');
 
-// Utility-Funktion: Ordner erstellen
+// Utility-Funktion: create dir
 function createFolder(folderPath) {
     if (!fs.existsSync(folderPath)) {
         fs.mkdirSync(folderPath, {recursive: true});
-        console.log(`Ordner "${folderPath}" wurde erstellt.`);
     }
 }
 
-// Utility-Funktion: Datei erstellen
+// Utility-Funktion: create data
 function createFile(filePath, content = '') {
     if (!fs.existsSync(filePath)) {
         fs.writeFileSync(filePath, content, 'utf8');
-        console.log(`Datei "${filePath}" wurde erstellt.`);
+        console.log(`created "${filePath}" `);
     }
 }
 
-// Frage an den Nutzer: Routing gewünscht?
+// wanna use routing?
 function askUser(question) {
     const rl = readline.createInterface({
         input: process.stdin, output: process.stdout,
@@ -35,25 +34,11 @@ function askUser(question) {
     });
 }
 
-// Frage an den Nutzer: Routing gewünscht?
-function askUser(question) {
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-    });
 
-    return new Promise((resolve) => {
-        rl.question(question, (answer) => {
-            rl.close();
-            resolve(answer.trim().toLowerCase() === 'y');
-        });
-    });
-}
-
-// Projekt-Setup
+// project-setup
 async function setupProject() {
     const basePath = path.join(process.cwd(), projectName);
-    // Basisstruktur erstellen
+    // create base structur
     const folders = [path.join(basePath, 'src'), path.join(basePath, 'src', 'app'), path.join(basePath, 'src', 'app', 'components'), path.join(basePath, 'src', 'app', 'model'), path.join(basePath, 'src', 'app', 'service'),];
 
 
@@ -258,9 +243,9 @@ try {
 
     fs.writeFileSync(path.join(componentFolderPath +  "-component", \`\${componentName}-component.ts\`), componentContent);
 
-    console.log(\`Komponente \${componentName} wurde erfolgreich generiert.\`);
+    console.log(\`\${componentName} was generated successfully.\`);
 } catch (error) {
-    console.error('Fehler beim Generieren der Komponente:', error);
+    console.error('Error generating the component:', error);
 }
 `, [path.join(basePath, '.gitignore')]: `# Node modules
         node_modules/
@@ -326,16 +311,16 @@ customElements.define('app-component', AppComponent);
 `,
     };
 
-    // Ordner erstellen
+    // create directory
     folders.forEach(createFolder);
 
-    // Dateien erstellen
+    // create files
     for (const [filePath, content] of Object.entries(files)) {
         createFile(filePath, content);
     }
 
-    // Optional: Routing-Dateien hinzufügen
-    const useRouting = await askUser('Möchtest du Routing hinzufügen? (y/n): ');
+    // optional: add Routing-files 
+    const useRouting = await askUser('Do you wannt to add routing? (y/n): ');
 
     if (useRouting) {
         createFile(path.join(basePath, 'src', 'app', 'global.d.ts'), `declare module '*.css' {
@@ -356,8 +341,7 @@ class RouterOutlet extends LitElement {
     @property({type: String}) currentRoute: string = window.location.pathname;
 
     static routes: Route[] = [
-        {path: '/seli', component: 'seli-component'},
-        {path: '/mazzl', component: 'mazzl-component'},
+        {path: '/', component: 'home-component'},
        
     ];
 
@@ -412,8 +396,7 @@ class RouterOutlet extends LitElement {
 
         return html\`
             <nav @click=\${this.onNavigate}>
-                <a href="/seli">Say my name</a>
-                <a href="/mazzl">Marcel</a>
+                <a href="/">Home</a>
             </nav>
             <div id="outlet"></div>
         \`;
@@ -446,10 +429,10 @@ customElements.define('router-outlet', RouterOutlet);
 `);
     }
 
-    console.log('Projektstruktur erfolgreich generiert!');
+    console.log('Done creating project structure');
 }
 
-// Einfacher Router für Subkommandos
+// 
 const command = process.argv[2];
 const projectName = process.argv[3];
 
@@ -457,28 +440,7 @@ if (command === 'new' && projectName) {
 
     const basePath = process.cwd();
     setupProject(basePath).catch((error) => console.error('Fehler:', error));
-   
-} else if (command === 'setup') {
-    const projectPath = path.join(process.cwd(), projectName);
 
-    // Ordner erstellen
-    fs.mkdirSync(projectPath, { recursive: true });
-
-    // index.js erstellen und ausführen
-    const indexPath = path.join(projectPath, 'index.js');
-    fs.writeFileSync(indexPath, `console.log("Hello from ${projectName}");`);
-
-    exec(`node ${indexPath}`, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error: ${error.message}`);
-        }
-        if (stderr) {
-            console.error(`stderr: ${stderr}`);
-        }
-        console.log(stdout);
-    });
-
-    console.log(`Project '${projectName}' created at ${projectPath}`);
 } else {
     console.log('Usage: ww new "projectname" | ww setup');
 }
