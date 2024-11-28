@@ -58,54 +58,7 @@ async function setupProject() {
 
 
     const files = {
-[path.join(basePath, 'package.json')]: `
-{
-  "name": "${projectName}",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "generate": "node generate-component.js",
-    "start": "webpack serve",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack build"
-  },
- 
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@istanbuljs/nyc-config-typescript": "^1.0.2",
-    "@testdeck/mocha": "^0.3.3",
-    "@types/chai": "^4.3.4",
-    "chai": "^4.3.7",
-    "html-webpack-plugin": "^5.5.0",
-    "mocha": "^10.2.0",
-    "nyc": "^15.1.0",
-    "sass": "^1.81.0",
-    "sass-loader": "^16.0.3",
-    "ts-loader": "^9.4.1",
-    "ts-mockito": "^2.6.1",
-    "ts-node": "^10.9.1",
-    "typescript": "^4.8.4",
-    "web-cli": "^1.0.0-prealpha",
-    "webpack": "^5.96.1",
-    "webpack-cli": "^4.10.0",
-    "webpack-dev-server": "^4.11.1"
-  },
-  "bin": {
-      "ww": "./bin/ww.js"
-    },
-  "dependencies": {
-    "css-loader": "^7.1.2",
-    "immer": "^9.0.16",
-    "lit": "^3.2.1",
-    "lit-html": "^2.4.0",
-    "rxjs": "^7.5.7",
-    "style-loader": "^4.0.0"
-  }
-}
 
-`,
         
         [path.join(basePath, 'webpack.config.js')]: `const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
@@ -156,7 +109,54 @@ module.exports = env => ({
         },
         port: 4200,
     },
-})`, [path.join(basePath, 'tsconfig.json')]: `{
+})`,[path.join(basePath, 'package.json')]: `
+{
+  "name": "${projectName}",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "generate": "node generate-component.js",
+    "start": "webpack serve",
+    "test": "echo \\"Error: no test specified\\" && exit 1",
+    "build": "webpack build"
+  },
+ 
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
+    "@testdeck/mocha": "^0.3.3",
+    "@types/chai": "^4.3.4",
+    "chai": "^4.3.7",
+    "html-webpack-plugin": "^5.5.0",
+    "mocha": "^10.2.0",
+    "nyc": "^15.1.0",
+    "sass": "^1.81.0",
+    "sass-loader": "^16.0.3",
+    "ts-loader": "^9.4.1",
+    "ts-mockito": "^2.6.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.4",
+    "web-cli": "^1.0.0-prealpha",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.11.1"
+  },
+  "bin": {
+      "ww": "./bin/ww.js"
+    },
+  "dependencies": {
+    "css-loader": "^7.1.2",
+    "immer": "^9.0.16",
+    "lit": "^3.2.1",
+    "lit-html": "^2.4.0",
+    "rxjs": "^7.5.7",
+    "style-loader": "^4.0.0"
+  }
+}
+
+`, [path.join(basePath, 'tsconfig.json')]: `{
     "compilerOptions": {
       "outDir": "dist",
       "module": "esnext",
