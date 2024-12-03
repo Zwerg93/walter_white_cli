@@ -4,11 +4,12 @@ const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
 const { exec } = require('child_process');
+const { log } = require('console');
 
 // Utility-Funktion: create dir
 function createFolder(folderPath) {
     if (!fs.existsSync(folderPath)) {
-        fs.mkdirSync(folderPath, {recursive: true});
+        fs.mkdirSync(folderPath, { recursive: true });
     }
 }
 
@@ -44,7 +45,7 @@ async function setupProject() {
 
     const files = {
 
-        
+
         [path.join(basePath, 'webpack.config.js')]: `const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
 
@@ -94,7 +95,7 @@ module.exports = env => ({
         },
         port: 4200,
     },
-})`,[path.join(basePath, 'package.json')]: `
+})`, [path.join(basePath, 'package.json')]: `
 {
   "name": "${projectName}",
   "version": "1.0.0",
@@ -242,7 +243,7 @@ try {
     }
 
     fs.writeFileSync(path.join(componentFolderPath +  "-component", \`\${componentName}-component.ts\`), componentContent);
-
+a
     console.log(\`\${componentName} was generated successfully.\`);
 } catch (error) {
     console.error('Error generating the component:', error);
@@ -292,24 +293,7 @@ try {
         `, [path.join(basePath, 'src', 'index.ts')]: `
 import "./app/app-component"
 
-`, [path.join(basePath, 'src', 'app', 'app-component.ts')]: `import {html, render} from 'lit-html';
-import './router-outlet';
-
-class AppComponent extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({mode: 'open'});
-    }
-
-    connectedCallback() {
-        const template = html\`<router-outlet></router-outlet>\`;
-        render(template, this.shadowRoot!);
-    }
-}
-
-customElements.define('app-component', AppComponent);
-`,
-    };
+`};
 
     // create directory
     folders.forEach(createFolder);
@@ -328,6 +312,26 @@ customElements.define('app-component', AppComponent);
     export default content;
 }
 `);
+
+
+        createFile[path.join(basePath, 'src', 'app', 'app-component.ts')], `import {html, render} from 'lit-html';
+        import './router-outlet';
+        
+        class AppComponent extends HTMLElement {
+            constructor() {
+                super();
+                this.attachShadow({mode: 'open'});
+            }
+        
+            connectedCallback() {
+                const template = html\`<router-outlet></router-outlet>\`;
+                render(template, this.shadowRoot!);
+            }
+        }
+        
+        customElements.define('app-component', AppComponent);
+        `,
+            
         createFile(path.join(basePath, 'src', 'app', 'router-outlet.ts'), `import {LitElement, html} from 'lit';
 import {property} from 'lit/decorators.js';
 
@@ -427,6 +431,50 @@ class RouterOutlet extends LitElement {
 
 customElements.define('router-outlet', RouterOutlet);
 `);
+
+    } else {
+        console.log("creating with no routing")
+        createFile[path.join(basePath, 'src', 'app', 'app-component.ts')], `import {html, render} from 'lit-html';
+       import {html, render} from "lit-html"
+
+import "./components/home-component"
+
+import {USER_SELECTED_EVENT} from "../app/components/user-component"
+
+const template = html\`
+    <home-component></home-component>
+\`
+
+class AppComponent extends HTMLElement {
+    constructor() {
+        super()
+        this.attachShadow({mode: "open"})
+    }
+
+    connectedCallback() {
+        console.log("app component connected")
+        this.render()
+    }
+
+    private render() {
+        render(template, this.shadowRoot)
+        const userTableComponent = this.shadowRoot.querySelector<HTMLElement>("song-component")
+        const userComponent = this.shadowRoot.querySelector<HTMLElement>("user-component")
+
+        userTableComponent.addEventListener(USER_SELECTED_EVENT, (e: CustomEvent) => {
+            const user = e.detail.user
+            userComponent.setAttribute("selected-user", user.id)
+            userComponent.style.display = "block"
+            userTableComponent.style.display = "none"
+            console.log("event: user selected:", user)
+        })
+
+    }
+}
+
+customElements.define("app-component", AppComponent)
+        `
+    
     }
 
     console.log('Done creating project structure');
