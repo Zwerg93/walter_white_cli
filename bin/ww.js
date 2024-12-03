@@ -434,15 +434,18 @@ customElements.define('router-outlet', RouterOutlet);
 
     } else {
         console.log("creating with no routing")
-        createFile[path.join(basePath, 'src', 'app', 'app-component.ts')], `import {html, render} from 'lit-html';
-       import {html, render} from "lit-html"
+
+        createFile(path.join(basePath, 'src', 'app', 'app-component.ts'), `import {html, render} from "lit-html"
 
 import "./components/home-component"
 
 import {USER_SELECTED_EVENT} from "../app/components/user-component"
 
+
 const template = html\`
+
     <home-component></home-component>
+
 \`
 
 class AppComponent extends HTMLElement {
@@ -472,8 +475,8 @@ class AppComponent extends HTMLElement {
     }
 }
 
-customElements.define("app-component", AppComponent)
-        `
+customElements.define("app-component", AppComponent)`);
+
     
     }
 
