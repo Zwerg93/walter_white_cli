@@ -243,7 +243,7 @@ try {
     }
 
     fs.writeFileSync(path.join(componentFolderPath +  "-component", \`\${componentName}-component.ts\`), componentContent);
-a
+
     console.log(\`\${componentName} was generated successfully.\`);
 } catch (error) {
     console.error('Error generating the component:', error);
@@ -295,6 +295,7 @@ import "./app/app-component"
 
 `};
 
+
     // create directory
     folders.forEach(createFolder);
 
@@ -307,14 +308,8 @@ import "./app/app-component"
     const useRouting = await askUser('Do you wannt to add routing? (y/n): ');
 
     if (useRouting) {
-        createFile(path.join(basePath, 'src', 'app', 'global.d.ts'), `declare module '*.css' {
-    const content: string;
-    export default content;
-}
-`);
-
-
-        createFile[path.join(basePath, 'src', 'app', 'app-component.ts')], `import {html, render} from 'lit-html';
+    
+        createFile(path.join(basePath, 'src', 'app', 'app-component.ts'), `import {html, render} from 'lit-html';
         import './router-outlet';
         
         class AppComponent extends HTMLElement {
@@ -330,7 +325,7 @@ import "./app/app-component"
         }
         
         customElements.define('app-component', AppComponent);
-        `,
+        `);
             
         createFile(path.join(basePath, 'src', 'app', 'router-outlet.ts'), `import {LitElement, html} from 'lit';
 import {property} from 'lit/decorators.js';
@@ -439,9 +434,6 @@ customElements.define('router-outlet', RouterOutlet);
 
 import "./components/home-component"
 
-import {USER_SELECTED_EVENT} from "../app/components/user-component"
-
-
 const template = html\`
 
     <home-component></home-component>
@@ -461,17 +453,6 @@ class AppComponent extends HTMLElement {
 
     private render() {
         render(template, this.shadowRoot)
-        const userTableComponent = this.shadowRoot.querySelector<HTMLElement>("song-component")
-        const userComponent = this.shadowRoot.querySelector<HTMLElement>("user-component")
-
-        userTableComponent.addEventListener(USER_SELECTED_EVENT, (e: CustomEvent) => {
-            const user = e.detail.user
-            userComponent.setAttribute("selected-user", user.id)
-            userComponent.style.display = "block"
-            userTableComponent.style.display = "none"
-            console.log("event: user selected:", user)
-        })
-
     }
 }
 
@@ -479,6 +460,11 @@ customElements.define("app-component", AppComponent)`);
 
     
     }
+    createFile(path.join(basePath, 'src', 'app', 'global.d.ts'), `declare module '*.css' {
+        const content: string;
+        export default content;
+    }
+    `);
 
     console.log('Done creating project structure');
 }

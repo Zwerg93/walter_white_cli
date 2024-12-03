@@ -1,6 +1,6 @@
 {
   "name": "@codingcat2202/walter_white_cli",
-  "version": "1.1.3",
+  "version": "1.1.10",
   "description": "This is a project, where i try to create an template, where you can create easy and (very) fast custom HTML elements",
   "main": "index.js",
   "scripts": {
